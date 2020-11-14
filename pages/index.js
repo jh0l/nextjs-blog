@@ -32,6 +32,14 @@ export default function Home({allPostsData}) {
                     ))}
                 </ul>
             </section>
+            <br />
+            <div style={{width: '100%', textAlign: 'right'}}>
+                <small>
+                    <a href="https://github.com/jh0l/nextjs-blog">
+                        Source on <b>GitHub</b>
+                    </a>
+                </small>
+            </div>
         </Layout>
     );
 }
