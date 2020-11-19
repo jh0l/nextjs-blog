@@ -1,11 +1,11 @@
 import Head from 'next/head';
-import {getSortedPostsData} from '../lib/posts';
+import {getSortedPostsData, PostData} from '../lib/posts';
 import Layout, {siteTitle} from '../components/layout';
 import utilStyles from '../styles/utils.module.css';
 import Link from 'next/link';
 import Date from '../components/Date';
 
-export default function Home({allPostsData}) {
+export default function Home({allPostsData}: {allPostsData: PostData[]}) {
     return (
         <Layout home>
             <Head>
