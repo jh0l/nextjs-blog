@@ -1,11 +1,12 @@
 import Head from 'next/head';
-import {getSortedPostsData} from '../lib/posts';
+import {getSortedPostsData, PostData} from '../lib/posts';
 import Layout, {siteTitle} from '../components/layout';
 import utilStyles from '../styles/utils.module.css';
 import Link from 'next/link';
 import Date from '../components/Date';
+import siteURIs from '../lib/siteURIs';
 
-export default function Home({allPostsData}) {
+export default function Home({allPostsData}: {allPostsData: PostData[]}) {
     return (
         <Layout home>
             <Head>
@@ -17,11 +18,21 @@ export default function Home({allPostsData}) {
             <section
                 className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}
             >
+                <h2 className={utilStyles.headingLg}>Tools</h2>
+                <ul className={utilStyles.list}>
+                    <li className={utilStyles.listItem}>
+                        <Link href={siteURIs.todoApp}>Todo App</Link>
+                    </li>
+                </ul>
+            </section>
+            <section
+                className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}
+            >
                 <h2 className={utilStyles.headingLg}>Blog</h2>
                 <ul className={utilStyles.list}>
                     {allPostsData.map(({id, date, title}) => (
                         <li className={utilStyles.listItem} key={id}>
-                            <Link href={`/posts/${id}`}>
+                            <Link href={siteURIs.posts(id)}>
                                 <a>{title}</a>
                             </Link>
                             <br />
@@ -32,6 +43,14 @@ export default function Home({allPostsData}) {
                     ))}
                 </ul>
             </section>
+            <br />
+            <div style={{width: '100%', textAlign: 'right'}}>
+                <small>
+                    <a href="https://github.com/jh0l/nextjs-blog">
+                        Source on <b>GitHub</b>
+                    </a>
+                </small>
+            </div>
         </Layout>
     );
 }

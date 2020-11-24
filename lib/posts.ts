@@ -6,10 +6,10 @@ import html from 'remark-html';
 
 const postsDirectory = path.join(process.cwd(), 'posts');
 
-export function getSortedPostsData() {
-    // Get file names under /posts
-    const fileNames = fs.readdirSync(postsDirectory);
-    const allPostsData = fileNames.map((fileName) => {
+export type PostData = {id: string; title: string; date: string};
+
+const readPostDataFiles = (fileNames: string[]) =>
+    fileNames.map((fileName) => {
         // Remove ".md" from file name to get id
         const id = fileName.replace(/\.md$/, '');
 
@@ -24,10 +24,16 @@ export function getSortedPostsData() {
         return {
             id,
             ...matterResult.data,
-        };
+        } as PostData;
     });
+
+export function getSortedPostsData() {
+    // Get file names under /posts
+    const fileNames = fs.readdirSync(postsDirectory);
+    const allPostsData = readPostDataFiles(fileNames);
     // Sort posts by date
     return allPostsData.sort((a, b) => {
+        console.log(a, b);
         if (a.date < b.date) {
             return 1;
         } else {
@@ -47,7 +53,11 @@ export function getAllPostIds() {
     });
 }
 
-export async function getPostData(id) {
+export type PostDataContent = PostData & {
+    contentHtml: string;
+};
+
+export async function getPostData(id: string) {
     const fullPath = path.join(postsDirectory, `${id}.md`);
     const fileContents = fs.readFileSync(fullPath, 'utf8');
 
@@ -65,5 +75,5 @@ export async function getPostData(id) {
         id,
         contentHtml,
         ...matterResult.data,
-    };
+    } as PostDataContent;
 }
